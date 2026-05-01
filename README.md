@@ -40,7 +40,7 @@ project/
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/secure-notes-app.git
+git clone https://github.com/dev62767-beep/secure-notes-app.git
 cd secure-notes-app
 ```
 ### 2. Setup backend
