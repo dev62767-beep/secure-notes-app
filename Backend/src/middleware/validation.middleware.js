@@ -1,4 +1,4 @@
-const {body, validationResult} = require('express-validator');
+const { body, validationResult, param } = require('express-validator');
 
 const validate = (req, res, next) => {
     const errors = validationResult(req);
@@ -52,7 +52,7 @@ const updateNoteValidate = [
     validate
 ]
 const deleteNoteValidate = [
-    body('id')
+    param('id')
         .notEmpty()
         .withMessage('ID is required'),
     validate

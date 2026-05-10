@@ -14,7 +14,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/auth/register',
+        'http://localhost:3000/api/v1/auth/register',
         { username, email, password },
         { withCredentials: true } 
       )
@@ -26,7 +26,7 @@ const Register = () => {
       setEmail('')
       setPassword('')
 
-      navigate('/login')
+      navigate('/')
 
     } catch (error) {
       console.error('Error registering user:', error.response?.data || error.message)

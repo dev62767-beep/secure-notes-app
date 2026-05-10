@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import AdminPanel from './Admin'
 const Notes = () => {
   const [title, setTitle] = useState('')
   const [edit, setedit] = useState(null)
@@ -9,23 +10,25 @@ const Notes = () => {
     useEffect(() => {
       getNotes()
     }, [])
-  
+  const user = JSON.parse(
+  localStorage.getItem("user")
+)
      const navigate = useNavigate()
   const handleNotes = async (e) => {
   e.preventDefault();
 
   try {
     if (edit) {
-      // 🔥 UPDATE
+      
       await axios.put(
-        `http://localhost:3000/api/auth/notes/${edit}`,
+        `http://localhost:3000/api/v1/notes/${edit}`,
         { title, content },
         { withCredentials: true }
       );
     } else {
-      // 🔥 CREATE
+      
       await axios.post(
-        'http://localhost:3000/api/auth/notes',
+        'http://localhost:3000/api/v1/notes',
         { title, content },
         { withCredentials: true }
       );
@@ -44,7 +47,7 @@ const Notes = () => {
     const getNotes = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/api/auth/notes',
+          'http://localhost:3000/api/v1/notes',
           { withCredentials: true }
         )
         setNotes(response.data.notes)
@@ -56,7 +59,7 @@ const Notes = () => {
     const deleteNote = async (id) => {
       try {
         await axios.delete(
-          `http://localhost:3000/api/auth/notes/${id}`,
+          `http://localhost:3000/api/v1/notes/${id}`,
           { withCredentials: true }
         )
         await getNotes()
@@ -68,13 +71,15 @@ const Notes = () => {
     const handleEdit = (note) => {
       setTitle(note.title);
       setContent(note.content);
-      setedit(note._id); // 🔥 track which note
+      setedit(note._id); 
      };
 
   return (
    <div className='flex flex-col gap-4 items-center justify-center h-[90%] pt-10 w-full'>
       <h1 className='text-4xl font-bold'>Notes</h1>
-
+      {user?.role === "admin" && (
+        <AdminPanel />
+      )}
       <form
         className='flex flex-col gap-4 w-full md:w-[50%]'
         onSubmit={ handleNotes}

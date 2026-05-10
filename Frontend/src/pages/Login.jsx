@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import AdminPanel from './Admin'
 
 const Login = () => {
     const [email, setEmail] = useState('')
@@ -13,11 +14,15 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/auth/login',
+        'http://localhost:3000/api/v1/auth/login',
         { email, password },
         { withCredentials: true } 
       )
-
+      
+        localStorage.setItem(
+        "user",
+        JSON.stringify(response.data.user)
+      )
       console.log(response.data)
 
       setEmail('')
