@@ -3,12 +3,49 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const register = async (req, res) => {
+  try {
     const { username, email, password } = req.body;
-    const newUser = await userSchema.create({ username, email, password:bcrypt.hashSync(password, 10), role: "user" });
-    const token  = jwt.sign({ id: newUser._id, username: newUser.username, role: newUser.role }, process.env.JWT_SECRET);
+
+    const existingUser = await userSchema.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const newUser = await userSchema.create({
+      username,
+      email,
+      password: bcrypt.hashSync(password, 10),
+      role: "user"
+    });
+
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+        username: newUser.username,
+        role: newUser.role
+      },
+      process.env.JWT_SECRET
+    );
+
     res.cookie('token', token);
-    
-    res.status(201).json({ message: 'User registered successfully', newUser: { id: newUser._id, username: newUser.username, email: newUser.email, role: newUser.role } });
+
+    res.status(201).json({
+      message: 'User registered successfully',
+      newUser: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role
+      }
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
 }
 
 const login = async (req, res) => {
