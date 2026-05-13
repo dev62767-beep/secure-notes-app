@@ -12,8 +12,6 @@ const App = () => {
         <Route path='/notes' element={<Notes />} />
         
       </Routes>
-        
-      
     </Router>
   )
   
