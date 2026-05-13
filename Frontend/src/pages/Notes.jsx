@@ -6,6 +6,7 @@ const Notes = () => {
   const [title, setTitle] = useState('')
   const [edit, setedit] = useState(null)
   const [content, setContent] = useState('')
+  const api_URL = import.meta.env.VITE_API_URL
   const [notes, setNotes] = useState([])
     useEffect(() => {
       getNotes()
@@ -21,14 +22,14 @@ const Notes = () => {
     if (edit) {
       
       await axios.put(
-        `http://localhost:3000/api/v1/notes/${edit}`,
+        `${api_URL}/api/v1/notes/${edit}`,
         { title, content },
         { withCredentials: true }
       );
     } else {
       
       await axios.post(
-        'http://localhost:3000/api/v1/notes',
+       ` ${api_URL}/api/v1/notes`,
         { title, content },
         { withCredentials: true }
       );
@@ -47,7 +48,7 @@ const Notes = () => {
     const getNotes = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/api/v1/notes',
+          `${api_URL}/api/v1/notes`,
           { withCredentials: true }
         )
         setNotes(response.data.notes)
@@ -59,7 +60,7 @@ const Notes = () => {
     const deleteNote = async (id) => {
       try {
         await axios.delete(
-          `http://localhost:3000/api/v1/notes/${id}`,
+          `${api_URL}/api/v1/notes/${id}`,
           { withCredentials: true }
         )
         await getNotes()

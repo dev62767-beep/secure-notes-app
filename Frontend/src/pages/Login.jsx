@@ -8,13 +8,14 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [error, seterror] = useState('')
     const navigate = useNavigate()
+    const api_URL = import.meta.env.VITE_API_URL
 
   const handleLogin = async (e) => {
     e.preventDefault()
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/v1/auth/login',
+        `${api_URL}/api/v1/auth/login`,
         { email, password },
         { withCredentials: true } 
       )

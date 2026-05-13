@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 
 const AdminPanel = () => {
+  const api_URL = import.meta.env.VITE_API_URL
     const getUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/admin/users',
+        const response = await axios.get(`${api_URL}/api/v1/admin/users`,
              { withCredentials: true } 
         );
         
@@ -15,7 +16,7 @@ const AdminPanel = () => {
     }
    const getNotes = async () =>{
     try {
-        const response = await axios.get('http://localhost:3000/api/v1/admin/notes',
+        const response = await axios.get(`${api_URL}/api/v1/admin/notes`,
              { withCredentials: true } 
         );
         console.log(response.data);
