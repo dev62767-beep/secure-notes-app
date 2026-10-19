@@ -74,6 +74,13 @@ const Register = () => {
         >
           Register
         </button>
+        <button
+          type='button'
+          className='p-2 bg-gray-500 text-white rounded hover:bg-gray-600'
+          onClick={() => navigate('/')}
+        >
+          Back to Login
+        </button>
       </form>
     </div>
   )
