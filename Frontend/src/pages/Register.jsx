@@ -7,6 +7,7 @@ const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, seterror] = useState('')
   const navigate = useNavigate()
   const api_URL = import.meta.env.VITE_API_URL
   const handleRegister = async (e) => {
@@ -30,6 +31,8 @@ const Register = () => {
 
     } catch (error) {
       console.error('Error registering user:', error.response?.data || error.message)
+            seterror(error.response?.data?.message || "Registration failed")
+
     }
   }
 
@@ -67,7 +70,7 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
+        {error && <p className='text-red-500'>{error}</p>}
         <button
           type='submit'
           className='p-2 bg-blue-500 text-white rounded hover:bg-blue-600'
